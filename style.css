@@ -1,0 +1,23 @@
+
+body {
+  background: #111;
+  font-family: Verdana;
+}
+
+#game {
+  display: grid;
+  grid-template-columns: 360px auto;
+  width: 600px;
+  margin: auto;
+}
+
+#viewport {
+  border: solid #888 2px;
+}
+#hud {
+  box-sizing: border-box;
+  background-color: #222;
+  color: #fff;
+  padding: 0.5rem;
+  text-align: center;
+}
