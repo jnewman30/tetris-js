@@ -1,5 +1,3 @@
-// Import stylesheets
-import './style.css';
 import { createBlock } from './blocks.js';
 
 // Write Javascript code!
