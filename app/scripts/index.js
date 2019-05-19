@@ -1,6 +1,13 @@
+import { createAudioContext, loadTrack, playTrack } from './audio.js';
 import { createBlock } from './blocks.js';
 
-// Write Javascript code!
+const audioCtx = createAudioContext();
+
+async function playDropSound() {
+  const dropSound = await loadTrack(audioCtx, '../sounds/snare.wav');
+  playTrack(audioCtx, dropSound);
+}
+
 const viewport = document.getElementById('viewport');
 const context = viewport.getContext('2d');
 context.scale(20, 20);
@@ -9,11 +16,13 @@ let dropCounter = 0;
 let dropInterval = 1000;
 let lastTime = 0;
 
+
 const clearFillStyle = context.createLinearGradient(0, 0, 0, 32);
 clearFillStyle.addColorStop(0, '#448aff');
 clearFillStyle.addColorStop(0.5, '#3e2723');
 clearFillStyle.addColorStop(0.6, '#212121');
 clearFillStyle.addColorStop(1, '#212121');
+
 
 function clear() {
   context.fillStyle = clearFillStyle;
@@ -89,6 +98,7 @@ function playerDrop() {
   player.pos.y++;
   if (collide(arena, player)) {
     player.pos.y--;
+    playDropSound();
     merge(arena, player);
     playerReset();
     arenaSweep();
@@ -213,6 +223,14 @@ document.addEventListener('keydown', event => {
   }
 });
 
-playerReset();
-updatePlayerScore();
-update();
+
+async function main() {
+  const music = await loadTrack(audioCtx, '../sounds/music.mp3');
+  playTrack(audioCtx, music, true);
+
+  playerReset();
+  updatePlayerScore();
+  update();
+}
+
+main();
