@@ -8,6 +8,11 @@ async function playDropSound() {
   playTrack(audioCtx, dropSound);
 }
 
+async function playClearSound() {
+  const clearSound = await loadTrack(audioCtx, '../sounds/clear.mp3');
+  playTrack(audioCtx, clearSound);
+}
+
 const viewport = document.getElementById('viewport');
 const context = viewport.getContext('2d');
 context.scale(20, 20);
@@ -29,12 +34,6 @@ function clear() {
   context.fillRect(0, 0, viewport.width, viewport.height);
 }
 
-const matrix = [
-  [0, 0, 0],
-  [1, 1, 1],
-  [0, 1, 0]
-];
-
 const colors = [
   null,
   '#ff5252',
@@ -55,6 +54,9 @@ function arenaSweep() {
         continue outer;
       }
     }
+
+    playClearSound();
+
     const row = arena.splice(y, 1)[0].fill(0);
     arena.unshift(row);
     ++y;
@@ -225,8 +227,8 @@ document.addEventListener('keydown', event => {
 
 
 async function main() {
-  const music = await loadTrack(audioCtx, '../sounds/music.mp3');
-  playTrack(audioCtx, music, true);
+  const bgMusic = await loadTrack(audioCtx, '../sounds/music.mp3');
+  playTrack(audioCtx, bgMusic, true, 0, 0.5);
 
   playerReset();
   updatePlayerScore();

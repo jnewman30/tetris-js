@@ -11,11 +11,16 @@ export async function loadTrack(audioCtx, filepath) {
     return audioBuffer;
 }
 
-export function playTrack(audioCtx, audioBuffer, loop = false, offset = 0) {
+export function playTrack(audioCtx, audioBuffer, loop = false, offset = 0, gain = 1) {
+    var gainNode = audioCtx.createGain();
+    gainNode.gain.value = gain;
+    gainNode.connect(audioCtx.destination);
+
     const trackSource = audioCtx.createBufferSource();
     trackSource.buffer = audioBuffer;
     trackSource.loop = loop;
-    trackSource.connect(audioCtx.destination);
+    trackSource.connect(gainNode);
+    // trackSource.connect(audioCtx.destination);
 
     if (offset == 0) {
         trackSource.start();
